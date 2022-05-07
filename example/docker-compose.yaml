@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  traefik:
+    image: traefik:latest
+    ports:
+      - 80:80
+      - 8080:8080
+    networks:
+      - frontend
+      - tailscale_forward_auth
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik.yaml:/etc/traefik/traefik.yaml
+
+  tailscale_forward_auth:
+    build: ../
+    command: ["tailscale-forward-auth", "-addr=0.0.0.0:80", "-debug"]
+    networks:
+      - tailscale_forward_auth
+    volumes:
+      - /var/run/tailscale/:/var/run/tailscale
+
+  echo:
+    build: .
+    command: ['echo-server', '-addr=0.0.0.0:9001']
+    networks:
+      - frontend
+    labels:
+      - traefik.enable=true
+      - "traefik.http.routers.echo.rule=Path(`/echo`)"
+      - traefik.http.services.echo.loadbalancer.server.port=9001
+      - traefik.http.routers.echo.middlewares=tailscale-auth@file
+
+networks:
+  frontend:
+  tailscale_forward_auth:

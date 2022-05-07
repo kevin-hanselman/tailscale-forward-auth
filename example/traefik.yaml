@@ -1,0 +1,19 @@
+api:
+  insecure: true
+
+log:
+  level: INFO
+
+providers:
+  docker:
+    exposedByDefault: false
+  # This is needed to reference the middleware(s) defined below with '<middleware>@file'
+  file:
+    filename: /etc/traefik/traefik.yaml
+
+http:
+  middlewares:
+    tailscale-auth:
+      forwardAuth:
+        address: "http://tailscale_forward_auth"
+        authResponseHeadersRegex: '^Tailscale-'
