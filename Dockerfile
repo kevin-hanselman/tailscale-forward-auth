@@ -6,7 +6,8 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY main.go ./
-RUN go install .
+RUN CGO_ENABLED=0 go install .
 
-FROM alpine
-COPY --from=build-env /go/bin/* /usr/local/bin/
+FROM scratch
+COPY --from=build-env /go/bin/tailscale-forward-auth /tailscale-forward-auth
+ENTRYPOINT ["/tailscale-forward-auth"]
