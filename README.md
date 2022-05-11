@@ -7,15 +7,14 @@ but it is decoupled from NGINX and packaged in a Docker image.
 
 ## Traefik example
 
-**Don't run this in production.**
+**Don't run this example in production; it's not secure.**
 
 The `example` directory contains an example of running the server as a
 [ForwardAuth middleware in
-Traefik](https://doc.traefik.io/traefik/middlewares/http/forwardauth/).
-
-It assumes you have Docker and Docker Compose available on your machine, and
+Traefik](https://doc.traefik.io/traefik/middlewares/http/forwardauth/). It
+assumes that you have Docker and Docker Compose available on your machine, and
 that tailscaled is running and authenticated on the same machine (using the
-default tailscaled UNIX socket).
+tailscaled UNIX socket at the default location).
 
 To run the example:
 
@@ -44,7 +43,7 @@ $ curl -v localhost/echo
 ```
 
 Now send an HTTP request using the Tailscale IP. You should now receive
-response from your echo server. Note the added `Tailscale-` fields:
+a response from your echo server. Note the added `Tailscale-` fields:
 
 ```
 $ curl $(tailscale ip -4)/echo

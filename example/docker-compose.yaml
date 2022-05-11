@@ -14,8 +14,8 @@ services:
       - ./traefik.yaml:/etc/traefik/traefik.yaml
 
   tailscale_forward_auth:
-    build: ../
-    command: ["tailscale-forward-auth", "-addr=0.0.0.0:80", "-debug"]
+    build: ..
+    command: ["-addr=0.0.0.0:80", "-debug"]
     networks:
       - tailscale_forward_auth
     volumes:
