@@ -19,8 +19,8 @@ import (
 )
 
 var (
-	listenProto      = flag.String("proto", "tcp", "type of connection to accept requests on, defaults to tcp")
-	listenAddr       = flag.String("addr", "127.0.0.1:", "the address to listen on, URL for TCP/UDP, path for UNIX")
+	listenProto      = flag.String("network", "tcp", "type of network to listen on, defaults to tcp")
+	listenAddr       = flag.String("addr", "127.0.0.1:", "address to listen on, defaults to 127.0.0.1:")
 	headerRemoteIP   = flag.String("remote-ip-header", "X-Forwarded-For", "HTTP header field containing the remote IP")
 	headerRemotePort = flag.String("remote-port-header", "X-Forwarded-Port", "HTTP header field containing the remote port")
 	debug            = flag.Bool("debug", false, "enable debug logging")
@@ -35,7 +35,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if *debug {
-			log.Println(r.Header)
+			log.Printf("received request with header %+v", r.Header)
 		}
 
 		remoteHost := r.Header.Get(*headerRemoteIP)
