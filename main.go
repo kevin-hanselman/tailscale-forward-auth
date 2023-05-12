@@ -59,7 +59,8 @@ func main() {
 			return
 		}
 
-		info, err := tailscale.WhoIs(r.Context(), remoteAddr.String())
+		client := &tailscale.LocalClient{}
+		info, err := client.WhoIs(r.Context(), remoteAddr.String())
 		if err != nil {
 			w.WriteHeader(http.StatusUnauthorized)
 			log.Printf("can't look up %s: %v", remoteAddr, err)
