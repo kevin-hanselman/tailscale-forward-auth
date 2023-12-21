@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: '1.20.4'
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       -
         name: golangci-lint
         uses: golangci/golangci-lint-action@v3
@@ -31,7 +31,7 @@ jobs:
       packages: write
     steps:
       -
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       -
         name: Generate image metadata
         id: meta
